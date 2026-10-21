@@ -1,37 +1,115 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#6d28d9"><title>Araç Sayacı</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<title>Gros Mantar · Personel Tabak Sayacı</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#151c31;--purple:#8b5cf6;--line:#a78bfa;--muted:#aab3ca}*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#11152b,#080b16);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f7f7ff;padding:16px;max-width:760px;margin:auto}header{text-align:center;padding:8px 0 14px}h1{font-size:27px;margin:0}header p{color:var(--muted);margin:6px 0 0;font-size:14px}.panel{background:var(--panel);border:1px solid #29314b;border-radius:18px;padding:14px;margin:12px 0}.video-wrap{position:relative;background:#05070c;border-radius:14px;overflow:hidden;min-height:220px;display:flex;align-items:center;justify-content:center}video{display:block;width:100%;max-height:62vh;object-fit:contain}canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.placeholder{padding:32px 16px;text-align:center;color:var(--muted)}.counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#0e1426;border-radius:14px;padding:14px}.metric small{color:var(--muted);display:block}.num{font-size:34px;font-weight:750;line-height:1.2;margin-top:5px}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}button,select{width:100%;border:0;border-radius:12px;padding:13px 10px;font-size:15px;font-weight:700}button{background:var(--purple);color:white}button.secondary{background:#303952}button:disabled{opacity:.45}select{background:#0e1426;color:white;border:1px solid #37415e;margin-top:7px}.status{font-size:13px;color:var(--muted);padding:8px 2px}.status strong{color:#ddd6fe}.note{font-size:12px;line-height:1.5;color:var(--muted)}label{font-size:14px;color:#e4e7f4}details summary{cursor:pointer;font-weight:650} .pill{display:inline-block;border-radius:999px;padding:4px 8px;background:#312e81;color:#ddd6fe;font-size:12px;margin-top:8px}
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151c31;--purple:#8b5cf6;--line:#303952;--muted:#aab3ca;--text:#f7f7ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#11152b,#080b16);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);padding:14px;max-width:900px;margin:auto}
+header{text-align:center;padding:8px 0 14px}h1{font-size:26px;margin:0}header p{color:var(--muted);margin:6px 0}.pill{display:inline-block;border-radius:999px;padding:5px 10px;background:#312e81;color:#ddd6fe;font-size:12px;margin-top:6px}
+.panel{background:var(--panel);border:1px solid #29314b;border-radius:18px;padding:14px;margin:12px 0}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.video-wrap{position:relative;background:#05070c;border-radius:14px;overflow:hidden;min-height:180px;display:flex;align-items:center;justify-content:center}video{display:block;width:100%;max-height:55vh;object-fit:contain}canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.placeholder{padding:28px 16px;text-align:center;color:var(--muted)}button,select,input{width:100%;border:0;border-radius:11px;padding:12px 10px;font-size:14px;font-weight:650}button{background:var(--purple);color:white;cursor:pointer}button.secondary{background:#303952}button.danger{background:#6b263a}button:disabled{opacity:.45}select,input{background:#0e1426;color:white;border:1px solid #37415e;margin-top:6px}.status{font-size:13px;color:var(--muted);padding:8px 2px;line-height:1.5}.status strong{color:#ddd6fe}.note{font-size:12px;line-height:1.55;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#0e1426;border-radius:13px;padding:13px}.metric small{color:var(--muted);display:block}.num{font-size:30px;font-weight:800;line-height:1.2;margin-top:4px}.workers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.worker{background:#0e1426;border:1px solid #303952;border-radius:13px;padding:10px}.worker h3{font-size:14px;margin:0 0 8px}.worker .num{font-size:27px}.worker .actions{display:flex;gap:6px;margin-top:9px}.worker .actions button{padding:10px 4px}.right{border-top:3px solid #a78bfa}.left{border-top:3px solid #60a5fa}.section-title{font-size:17px;margin:0 0 10px}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;padding:8px 5px;border-bottom:1px solid #303952}th{color:#c4b5fd}.scroll{overflow:auto}.warning{border:1px solid #80652a;background:#2b2415;color:#f7dfa1;border-radius:12px;padding:11px;font-size:12px;line-height:1.5}details summary{cursor:pointer;font-weight:700}.tiny{font-size:11px;color:var(--muted)}@media(min-width:650px){.workers{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
-</head><body>
-<header><h1>🚗 Araç Sayacı</h1><p>Telefon kamerasıyla iki yöndeki araçları say</p><span class="pill">Mor · Beyaz arayüz</span></header>
-<section class="panel"><div class="video-wrap" id="videoWrap"><div class="placeholder" id="placeholder">Kamerayı başlat düğmesine bas.<br>Telefonu yolu görecek şekilde sabitle.</div><video id="video" autoplay muted playsinline hidden></video><canvas id="overlay"></canvas></div><div class="status" id="status">Durum: <strong>Hazır</strong></div><div class="controls"><button id="startBtn">Kamerayı başlat</button><button class="secondary" id="stopBtn" disabled>Durdur</button></div></section>
-<section class="panel"><div class="counts"><div class="metric"><small>Toplam araç</small><div class="num" id="total">0</div></div><div class="metric"><small>Bir yönden →</small><div class="num" id="dirA">0</div></div><div class="metric"><small>Diğer yönden ←</small><div class="num" id="dirB">0</div></div><div class="metric"><small>Aktif algılanan</small><div class="num" id="active">0</div></div></div><div class="controls" style="margin-top:12px"><button class="secondary" id="resetBtn">Sayacı sıfırla</button><button class="secondary" id="lineBtn">Sayım çizgisini taşı</button></div><p class="note">Sayım çizgisi görüntünün ortasındadır. “Sayım çizgisini taşı” düğmesiyle çizgiyi yukarı/aşağı ayarlayabilirsin. Her izlenen araç çizgiyi geçtiğinde bir kez sayılır.</p></section>
-<section class="panel"><details><summary>Sayım ayarları ve önemli bilgiler</summary><p><label for="confidence">Algılama hassasiyeti</label><select id="confidence"><option value="0.45">Normal</option><option value="0.3">Daha hassas (daha çok algılama)</option><option value="0.6">Daha seçici</option></select></p><p class="note">Araç algılama modeli internetten yüklenir; ilk açılışta internet gerekir. Kamera yalnızca bu sayfa açıkken kullanılır. En iyi sonuç için telefonu sabitle, yolun tamamını ve araçların çizgiyi geçtiği noktayı görünür tut. Çok yoğun trafik, örtüşen araçlar, gece ve uzak görüntüler hataya yol açabilir. Bu bir prototiptir; güvenlik veya resmî trafik sayımı için doğrulanmış cihaz yerine kullanılmamalıdır.</p></details></section>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+</head>
+<body>
+<header><h1>🍄 Gros Mantar</h1><p>Personel bazlı köpük tabak sayacı</p><span class="pill">Mor · Beyaz arayüz</span></header>
+
+<section class="panel">
+  <h2 class="section-title">Kamera görüntüsü</h2>
+  <div class="video-wrap"><div class="placeholder" id="placeholder">Telefonu bandı ve tabakların banda bırakıldığı noktaları görecek şekilde sabitle.<br><br>Kamera ön izlemesini açmak için aşağıdaki düğmeye bas.</div><video id="video" autoplay muted playsinline hidden></video><canvas id="overlay"></canvas></div>
+  <div class="status" id="status">Durum: <strong>Kamera kapalı</strong></div>
+  <div class="controls"><button id="start">Kamerayı aç</button><button class="secondary" id="stop" disabled>Kamerayı kapat</button></div>
+  <p class="note">Kamera ön izlemesi bu prototipte çalışır. Gerçek otomatik tabak tanıma ve tabağı hangi personelin koyduğunu izleme, tesise ait görüntülerle özel bir görüntü tanıma modeli eğitildikten sonra eklenmelidir.</p>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Vardiya ayarları</h2>
+  <div class="row">
+    <div><label for="rightCount">Sağ taraftaki personel</label><select id="rightCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
+    <div><label for="leftCount">Sol taraftaki personel</label><select id="leftCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
+  </div>
+  <p class="note">Sağ 1–5 ve Sol 1–5 istasyonları varsayılan olarak açılır. Kişi sayısı değiştiğinde aktif istasyon sayısını buradan değiştir.</p>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Bugünkü toplam</h2>
+  <div class="grid">
+    <div class="metric"><small>Toplam tabak</small><div class="num" id="grandTotal">0</div></div>
+    <div class="metric"><small>Sağ taraf</small><div class="num" id="rightTotal">0</div></div>
+    <div class="metric"><small>Sol taraf</small><div class="num" id="leftTotal">0</div></div>
+    <div class="metric"><small>Aktif personel</small><div class="num" id="activePeople">10</div></div>
+  </div>
+  <p class="tiny" id="today"></p>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Sağ taraf</h2><div id="rightWorkers" class="workers"></div>
+</section>
+<section class="panel">
+  <h2 class="section-title">Sol taraf</h2><div id="leftWorkers" class="workers"></div>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Raporlar</h2>
+  <div class="row">
+    <div><label for="reportDate">Günlük rapor tarihi</label><input type="date" id="reportDate"></div>
+    <div><label for="reportPeriod">Rapor türü</label><select id="reportPeriod"><option value="day">Seçilen gün</option><option value="week">Son 7 gün</option><option value="month">Bu ay</option></select></div>
+  </div>
+  <div class="scroll" style="margin-top:10px"><table><thead><tr><th>Personel</th><th>Tabak</th><th>Pay</th></tr></thead><tbody id="reportRows"></tbody></table></div>
+  <div class="controls" style="margin-top:10px"><button class="secondary" id="export">CSV raporu indir</button><button class="danger" id="newShift">Yeni vardiya / sıfırla</button></div>
+  <p class="note">Kayıtlar bu telefondaki tarayıcıda saklanır. Tarayıcı verileri silinirse geçmiş kayıtlar kaybolabilir. CSV dosyası Excel'de açılabilir.</p>
+</section>
+
+<section class="panel">
+  <details><summary>Otomatik sayım hakkında önemli bilgi</summary>
+    <div class="warning" style="margin-top:10px">Tabaklar bant üzerinde birbirine karıştığı için, yalnızca bandın ilerideki bir noktasından çekilen görüntü tabağın hangi personel tarafından konduğunu güvenilir biçimde belirleyemez. Sistem, her tabağın banda ilk bırakıldığı noktayı görmeli ve tabağı oradan itibaren takip etmelidir. Bunun için personel yerleştirme bölgelerinin görünür olduğu kamera görüntüleriyle köpük tabak algılama modeli eğitilip gerçek hatta test edilmelidir. Bu sürüm otomatik sayım yaptığını iddia etmez; kamera ön izlemesi, personel sayaçları ve raporlama taslağıdır.</div>
+  </details>
+</section>
+
 <script>
-const video=document.getElementById('video'), canvas=document.getElementById('overlay'), ctx=canvas.getContext('2d');
-const startBtn=document.getElementById('startBtn'),stopBtn=document.getElementById('stopBtn'),statusEl=document.getElementById('status');
-let stream=null,model=null,running=false,loopBusy=false,tracks=new Map(),nextId=1,total=0,dirA=0,dirB=0,lineRatio=.5,lastTime=0;
-const allowed=new Set(['car','bus','truck']);
-function status(s){statusEl.innerHTML='Durum: <strong>'+s+'</strong>'}
-function updateCounts(){document.getElementById('total').textContent=total;document.getElementById('dirA').textContent=dirA;document.getElementById('dirB').textContent=dirB;document.getElementById('active').textContent=tracks.size}
-function resizeCanvas(){if(!video.videoWidth)return;canvas.width=video.videoWidth;canvas.height=video.videoHeight;canvas.style.aspectRatio=video.videoWidth+'/'+video.videoHeight}
-function center(b){return {x:b[0]+b[2]/2,y:b[1]+b[3]/2}}
-function draw(preds){const w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);const y=h*lineRatio;ctx.strokeStyle='#c4b5fd';ctx.lineWidth=Math.max(3,w*.004);ctx.setLineDash([12,8]);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();ctx.setLineDash([]);ctx.font=`${Math.max(14,w*.025)}px system-ui`;
-for(const p of preds){if(!allowed.has(p.class))continue;const [x,yy,bw,bh]=p.bbox;ctx.strokeStyle='#a78bfa';ctx.lineWidth=Math.max(2,w*.003);ctx.strokeRect(x,yy,bw,bh);ctx.fillStyle='rgba(109,40,217,.88)';const label=(p.class==='car'?'Araba':p.class==='bus'?'Otobüs':'Kamyon')+' '+Math.round(p.score*100)+'%';const tw=ctx.measureText(label).width;ctx.fillRect(x,Math.max(0,yy-24),tw+12,24);ctx.fillStyle='white';ctx.fillText(label,x+6,Math.max(17,yy-7));}}
-function trackPredictions(preds,now){const detections=preds.filter(p=>allowed.has(p.class)&&p.score>=Number(document.getElementById('confidence').value)).map(p=>({...p,c:center(p.bbox)}));const used=new Set();
-for(const d of detections){let best=null,bestDist=Infinity;for(const [id,t] of tracks){if(used.has(id)||t.cls!==d.class)continue;const dt=Math.max(1,now-t.time);const dist=Math.hypot(d.c.x-t.x,d.c.y-t.y);const maxDist=Math.max(55,canvas.width*.11)*(dt>900?1.5:1);if(dist<maxDist&&dist<bestDist){best=id;bestDist=dist}}
-if(best!==null){const t=tracks.get(best);used.add(best);const oldSide=t.y<canvas.height*lineRatio?-1:1,newSide=d.c.y<canvas.height*lineRatio?-1:1;if(oldSide!==newSide&&!t.counted&&Math.abs(d.c.y-t.y)>4){total++;if(t.y<d.c.y)dirA++;else dirB++;t.counted=true;updateCounts()}t.x=d.c.x;t.y=d.c.y;t.time=now;t.bbox=d.bbox;t.score=d.score;}
-else{const id=nextId++;tracks.set(id,{x:d.c.x,y:d.c.y,time:now,cls:d.class,bbox:d.bbox,score:d.score,counted:false});used.add(id)}}
-for(const [id,t] of tracks){if(now-t.time>1800)tracks.delete(id)}updateCounts();}
-async function tick(){if(!running||loopBusy)return;loopBusy=true;try{if(video.readyState>=2){resizeCanvas();const preds=await model.detect(video);trackPredictions(preds,performance.now());draw(preds)}}catch(e){console.error(e)}finally{loopBusy=false;if(running)requestAnimationFrame(tick)}}
-startBtn.onclick=async()=>{try{startBtn.disabled=true;status('Model yükleniyor…');if(!window.isSecureContext){throw new Error('Kamera için HTTPS bağlantısı gerekir. Sayfayı HTTPS üzerinden aç.')}if(!model){await tf.ready();model=await cocoSsd.load({base:'lite_mobilenet_v2'});}status('Kamera izni bekleniyor…');stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});video.srcObject=stream;video.hidden=false;document.getElementById('placeholder').hidden=true;await video.play();running=true;stopBtn.disabled=false;status('Sayım yapılıyor');requestAnimationFrame(tick)}catch(e){status('Başlatılamadı: '+(e.message||e));startBtn.disabled=false;console.error(e)}};
-stopBtn.onclick=()=>{running=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}video.pause();video.srcObject=null;video.hidden=true;document.getElementById('placeholder').hidden=false;ctx.clearRect(0,0,canvas.width,canvas.height);startBtn.disabled=false;stopBtn.disabled=true;status('Durduruldu')};
-document.getElementById('resetBtn').onclick=()=>{total=dirA=dirB=0;tracks.clear();nextId=1;updateCounts();status(running?'Sayım sıfırlandı':'Sayaç sıfırlandı')};
-document.getElementById('lineBtn').onclick=()=>{lineRatio=lineRatio>=.7?.3:lineRatio+.1;status('Sayım çizgisi %'+Math.round(lineRatio*100)+' konumuna taşındı')};
+const $=id=>document.getElementById(id);
+const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d');
+let stream=null;
+const todayKey=()=>new Date().toLocaleDateString('sv-SE');
+const dateText=()=>new Date().toLocaleDateString('tr-TR');
+$('today').textContent='Tarih: '+dateText();
+$('reportDate').value=todayKey();
+function readDB(){try{return JSON.parse(localStorage.getItem('grosTrayCountsV1')||'{}')}catch{return {}}}
+let db=readDB();
+function dayData(date=todayKey()){if(!db[date])db[date]={};return db[date]}
+function activeNames(){let names=[];for(let i=1;i<=+$('rightCount').value;i++)names.push('Sağ '+i);for(let i=1;i<=+$('leftCount').value;i++)names.push('Sol '+i);return names}
+function count(name,date=todayKey()){return Number((db[date]||{})[name]||0)}
+function save(){localStorage.setItem('grosTrayCountsV1',JSON.stringify(db));render()}
+function change(name,delta){let d=dayData();d[name]=Math.max(0,Number(d[name]||0)+delta);save()}
+function workerCard(name,side){const val=count(name);return `<div class="worker ${side}"><h3>${name}</h3><div class="num">${val}</div><div class="actions"><button aria-label="${name} tabak ekle" onclick="window.changeCount('${name}',1)">+1 tabak</button><button class="secondary" aria-label="${name} bir azalt" onclick="window.changeCount('${name}',-1)">−1</button></div></div>`}
+window.changeCount=change;
+function sum(names,date=todayKey()){return names.reduce((a,n)=>a+count(n,date),0)}
+function render(){
+ const rc=+$('rightCount').value,lc=+$('leftCount').value;
+ const right=Array.from({length:rc},(_,i)=>'Sağ '+(i+1)),left=Array.from({length:lc},(_,i)=>'Sol '+(i+1)),names=[...right,...left];
+ $('rightWorkers').innerHTML=right.map(n=>workerCard(n,'right')).join('');
+ $('leftWorkers').innerHTML=left.map(n=>workerCard(n,'left')).join('');
+ $('rightTotal').textContent=sum(right);$('leftTotal').textContent=sum(left);$('grandTotal').textContent=sum(names);$('activePeople').textContent=names.length;
+ renderReport();
+}
+function renderReport(){
+ const period=$('reportPeriod').value,chosen=$('reportDate').value||todayKey(),now=new Date(),dates=[];
+ if(period==='day')dates.push(chosen);
+ else if(period==='week'){for(let i=0;i<7;i++){let d=new Date();d.setDate(d.getDate()-i);dates.push(d.toLocaleDateString('sv-SE'))}}
+ else {for(let d=new Date(now.getFullYear(),now.getMonth(),1);d<=now;d.setDate(d.getDate()+1))dates.push(d.toLocaleDateString('sv-SE'))}
+ const names=Array.from({length:5},(_,i)=>'Sağ '+(i+1)).concat(Array.from({length:5},(_,i)=>'Sol '+(i+1)));
+ const totals=names.map(n=>({name:n,total:dates.reduce((s,d)=>s+count(n,d),0)}));
+ const grand=totals.reduce((s,x)=>s+x.total,0);
+ $('reportRows').innerHTML=totals.map(x=>`<tr><td>${x.name}</td><td>${x.total}</td><td>${grand?Math.round(x.total/grand*100)+'%':'—'}</td></tr>`).join('')+`<tr><th>TOPLAM</th><th>${grand}</th><th>100%</th></tr>`;
+}
+$('rightCount').onchange=render;$('leftCount').onchange=render;$('reportDate').onchange=renderReport;$('reportPeriod').onchange=renderReport;
+$('newShift').onclick=()=>{if(!confirm('Bugünkü personel sayaçlarını sıfırlamak istiyor musun? Eski günlerin kayıtları korunur.'))return;db[todayKey()]={};save()};
+$('export').onclick=()=>{const rows=[['Tarih','Personel','Tabak sayısı']];Object.keys(db).sort().forEach(date=>Object.keys(db[date]).sort().forEach(name=>rows.push([date,name,db[date][name]])));const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gros-mantar-tabak-raporu.csv';a.click();URL.revokeObjectURL(a.href)};
+function resize(){if(!video.videoWidth)return;canvas.width=video.videoWidth;canvas.height=video.videoHeight;ctx.clearRect(0,0,canvas.width,canvas.height)}
+$('start').onclick=async()=>{try{if(!window.isSecureContext)throw new Error('Kamera için HTTPS gerekir. GitHub Pages bağlantısını kullan.');stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});video.srcObject=stream;video.hidden=false;$('placeholder').hidden=true;await video.play();resize();$('status').innerHTML='Durum: <strong>Kamera ön izlemesi açık — otomatik tabak tanıma henüz etkin değil</strong>';$('start').disabled=true;$('stop').disabled=false;video.addEventListener('resize',resize)}catch(e){$('status').innerHTML='Durum: <strong>Kamera açılamadı: '+String(e.message||e).replace(/[<>&]/g,'')+'</strong>'}};
+$('stop').onclick=()=>{if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.pause();video.srcObject=null;video.hidden=true;$('placeholder').hidden=false;$('start').disabled=false;$('stop').disabled=true;$('status').innerHTML='Durum: <strong>Kamera kapalı</strong>';ctx.clearRect(0,0,canvas.width,canvas.height)};
 window.addEventListener('beforeunload',()=>{if(stream)stream.getTracks().forEach(t=>t.stop())});
-</script></body></html>
+render();
+</script>
+</body></html>
