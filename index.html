@@ -2,114 +2,297 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6d28d9">
-<title>Gros Mantar · Personel Tabak Sayacı</title>
+<title>Gros Mantar - Tabak Sayacı</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1020;--panel:#151c31;--purple:#8b5cf6;--line:#303952;--muted:#aab3ca;--text:#f7f7ff}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#11152b,#080b16);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);padding:14px;max-width:900px;margin:auto}
-header{text-align:center;padding:8px 0 14px}h1{font-size:26px;margin:0}header p{color:var(--muted);margin:6px 0}.pill{display:inline-block;border-radius:999px;padding:5px 10px;background:#312e81;color:#ddd6fe;font-size:12px;margin-top:6px}
-.panel{background:var(--panel);border:1px solid #29314b;border-radius:18px;padding:14px;margin:12px 0}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.video-wrap{position:relative;background:#05070c;border-radius:14px;overflow:hidden;min-height:180px;display:flex;align-items:center;justify-content:center}video{display:block;width:100%;max-height:55vh;object-fit:contain}canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.placeholder{padding:28px 16px;text-align:center;color:var(--muted)}button,select,input{width:100%;border:0;border-radius:11px;padding:12px 10px;font-size:14px;font-weight:650}button{background:var(--purple);color:white;cursor:pointer}button.secondary{background:#303952}button.danger{background:#6b263a}button:disabled{opacity:.45}select,input{background:#0e1426;color:white;border:1px solid #37415e;margin-top:6px}.status{font-size:13px;color:var(--muted);padding:8px 2px;line-height:1.5}.status strong{color:#ddd6fe}.note{font-size:12px;line-height:1.55;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#0e1426;border-radius:13px;padding:13px}.metric small{color:var(--muted);display:block}.num{font-size:30px;font-weight:800;line-height:1.2;margin-top:4px}.workers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.worker{background:#0e1426;border:1px solid #303952;border-radius:13px;padding:10px}.worker h3{font-size:14px;margin:0 0 8px}.worker .num{font-size:27px}.worker .actions{display:flex;gap:6px;margin-top:9px}.worker .actions button{padding:10px 4px}.right{border-top:3px solid #a78bfa}.left{border-top:3px solid #60a5fa}.section-title{font-size:17px;margin:0 0 10px}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;padding:8px 5px;border-bottom:1px solid #303952}th{color:#c4b5fd}.scroll{overflow:auto}.warning{border:1px solid #80652a;background:#2b2415;color:#f7dfa1;border-radius:12px;padding:11px;font-size:12px;line-height:1.5}details summary{cursor:pointer;font-weight:700}.tiny{font-size:11px;color:var(--muted)}@media(min-width:650px){.workers{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+*{box-sizing:border-box}
+body{margin:0;padding:14px;max-width:900px;margin-inline:auto;background:linear-gradient(160deg,#11152b,#080b16);font-family:system-ui,sans-serif;color:var(--text)}
+header{text-align:center;padding:10px}h1{margin:0;font-size:27px}
+header p,.note,.tiny{color:var(--muted);font-size:12px;line-height:1.6}
+.panel{background:var(--panel);border:1px solid #29314b;border-radius:17px;padding:14px;margin:12px 0}
+h2{font-size:17px;margin:0 0 12px}
+button,input,select{width:100%;padding:12px;border:0;border-radius:10px;font-size:14px}
+button{background:var(--purple);color:white;font-weight:700;cursor:pointer}
+button.secondary{background:#303952}
+button.danger{background:#6b263a}
+input,select{background:#0e1426;color:white;border:1px solid #37415e;margin-top:5px}
+label{font-size:12px;color:var(--muted)}
+.row,.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.video{position:relative;background:#05070c;border-radius:12px;overflow:hidden;min-height:190px}
+video{width:100%;max-height:55vh;display:block}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.status{padding:10px 0;font-size:13px;color:#ddd6fe}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.metric,.worker{background:#0e1426;border:1px solid #303952;border-radius:12px;padding:12px}
+.metric small{display:block;color:var(--muted)}
+.num{font-size:28px;font-weight:800;margin-top:4px}
+.workers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.worker h3{margin:0 0 8px;font-size:14px}
+.worker.right{border-top:3px solid #a78bfa}
+.worker.left{border-top:3px solid #60a5fa}
+.actions{display:flex;gap:6px;margin-top:8px}
+.actions button{padding:10px 4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:left;padding:8px 4px;border-bottom:1px solid #303952}
+th{color:#c4b5fd}
+.scroll{overflow:auto}
+.badge{font-size:11px;background:#312e81;padding:5px 9px;border-radius:20px;color:#ddd6fe}
+@media(min-width:650px){.workers{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-<header><h1>🍄 Gros Mantar</h1><p>Personel bazlı köpük tabak sayacı</p><span class="pill">Mor · Beyaz arayüz</span></header>
+<header>
+<h1>🍄 Gros Mantar</h1>
+<p>Personel bazlı köpük tabak sayacı</p>
+<span class="badge">Mor · Beyaz arayüz</span>
+</header>
 
 <section class="panel">
-  <h2 class="section-title">Kamera görüntüsü</h2>
-  <div class="video-wrap"><div class="placeholder" id="placeholder">Telefonu bandı ve tabakların banda bırakıldığı noktaları görecek şekilde sabitle.<br><br>Kamera ön izlemesini açmak için aşağıdaki düğmeye bas.</div><video id="video" autoplay muted playsinline hidden></video><canvas id="overlay"></canvas></div>
-  <div class="status" id="status">Durum: <strong>Kamera kapalı</strong></div>
-  <div class="controls"><button id="start">Kamerayı aç</button><button class="secondary" id="stop" disabled>Kamerayı kapat</button></div>
-  <p class="note">Kamera ön izlemesi bu prototipte çalışır. Gerçek otomatik tabak tanıma ve tabağı hangi personelin koyduğunu izleme, tesise ait görüntülerle özel bir görüntü tanıma modeli eğitildikten sonra eklenmelidir.</p>
+<h2>Kamera</h2>
+<div class="video">
+<video id="video" autoplay muted playsinline hidden></video>
+<canvas id="overlay"></canvas>
+<div id="placeholder" style="padding:35px 15px;text-align:center;color:#aab3ca">
+Kamera görüntüsü burada açılacak.
+</div>
+</div>
+<div id="status" class="status">Kamera kapalı</div>
+<div class="controls">
+<button id="start">Kamerayı aç</button>
+<button id="stop" class="secondary" disabled>Kamerayı kapat</button>
+</div>
+<p class="note">Kamera ön izlemesi bu sürümde çalışır. Görüntü üzerindeki sağ/sol bölgeler taslak niteliğindedir; otomatik tabak tanıma henüz etkin değildir.</p>
 </section>
 
 <section class="panel">
-  <h2 class="section-title">Vardiya ayarları</h2>
-  <div class="row">
-    <div><label for="rightCount">Sağ taraftaki personel</label><select id="rightCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
-    <div><label for="leftCount">Sol taraftaki personel</label><select id="leftCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
-  </div>
-  <p class="note">Sağ 1–5 ve Sol 1–5 istasyonları varsayılan olarak açılır. Kişi sayısı değiştiğinde aktif istasyon sayısını buradan değiştir.</p>
+<h2>Personel ayarları</h2>
+<div class="row">
+<div>
+<label for="rightCount">Sağ taraftaki personel sayısı</label>
+<select id="rightCount">
+<option>1</option><option>2</option><option>3</option>
+<option>4</option><option selected>5</option>
+</select>
+</div>
+<div>
+<label for="leftCount">Sol taraftaki personel sayısı</label>
+<select id="leftCount">
+<option>1</option><option>2</option><option>3</option>
+<option>4</option><option selected>5</option>
+</select>
+</div>
+</div>
+<p class="note">Personel isimlerini kartlardaki İsim değiştir düğmesiyle düzenleyebilirsin.</p>
 </section>
 
 <section class="panel">
-  <h2 class="section-title">Bugünkü toplam</h2>
-  <div class="grid">
-    <div class="metric"><small>Toplam tabak</small><div class="num" id="grandTotal">0</div></div>
-    <div class="metric"><small>Sağ taraf</small><div class="num" id="rightTotal">0</div></div>
-    <div class="metric"><small>Sol taraf</small><div class="num" id="leftTotal">0</div></div>
-    <div class="metric"><small>Aktif personel</small><div class="num" id="activePeople">10</div></div>
-  </div>
-  <p class="tiny" id="today"></p>
+<h2>Bugünkü toplam</h2>
+<div class="grid">
+<div class="metric"><small>Genel toplam</small><div class="num" id="grand">0</div></div>
+<div class="metric"><small>Sağ taraf</small><div class="num" id="rightTotal">0</div></div>
+<div class="metric"><small>Sol taraf</small><div class="num" id="leftTotal">0</div></div>
+<div class="metric"><small>Personel sayısı</small><div class="num" id="people">10</div></div>
+</div>
+<p class="tiny" id="today"></p>
 </section>
 
 <section class="panel">
-  <h2 class="section-title">Sağ taraf</h2><div id="rightWorkers" class="workers"></div>
-</section>
-<section class="panel">
-  <h2 class="section-title">Sol taraf</h2><div id="leftWorkers" class="workers"></div>
+<h2>Sağ taraf personelleri</h2>
+<div class="workers" id="rightWorkers"></div>
 </section>
 
 <section class="panel">
-  <h2 class="section-title">Raporlar</h2>
-  <div class="row">
-    <div><label for="reportDate">Günlük rapor tarihi</label><input type="date" id="reportDate"></div>
-    <div><label for="reportPeriod">Rapor türü</label><select id="reportPeriod"><option value="day">Seçilen gün</option><option value="week">Son 7 gün</option><option value="month">Bu ay</option></select></div>
-  </div>
-  <div class="scroll" style="margin-top:10px"><table><thead><tr><th>Personel</th><th>Tabak</th><th>Pay</th></tr></thead><tbody id="reportRows"></tbody></table></div>
-  <div class="controls" style="margin-top:10px"><button class="secondary" id="export">CSV raporu indir</button><button class="danger" id="newShift">Yeni vardiya / sıfırla</button></div>
-  <p class="note">Kayıtlar bu telefondaki tarayıcıda saklanır. Tarayıcı verileri silinirse geçmiş kayıtlar kaybolabilir. CSV dosyası Excel'de açılabilir.</p>
+<h2>Sol taraf personelleri</h2>
+<div class="workers" id="leftWorkers"></div>
 </section>
 
 <section class="panel">
-  <details><summary>Otomatik sayım hakkında önemli bilgi</summary>
-    <div class="warning" style="margin-top:10px">Tabaklar bant üzerinde birbirine karıştığı için, yalnızca bandın ilerideki bir noktasından çekilen görüntü tabağın hangi personel tarafından konduğunu güvenilir biçimde belirleyemez. Sistem, her tabağın banda ilk bırakıldığı noktayı görmeli ve tabağı oradan itibaren takip etmelidir. Bunun için personel yerleştirme bölgelerinin görünür olduğu kamera görüntüleriyle köpük tabak algılama modeli eğitilip gerçek hatta test edilmelidir. Bu sürüm otomatik sayım yaptığını iddia etmez; kamera ön izlemesi, personel sayaçları ve raporlama taslağıdır.</div>
-  </details>
+<h2>Geçmiş ve rapor</h2>
+<div class="row">
+<div><label for="reportDate">Tarih</label><input type="date" id="reportDate"></div>
+<div><label for="period">Rapor dönemi</label>
+<select id="period">
+<option value="day">Seçilen gün</option>
+<option value="week">Son 7 gün</option>
+<option value="month">Bu ay</option>
+</select></div>
+</div>
+<div class="scroll" style="margin-top:12px">
+<table>
+<thead><tr><th>Personel</th><th>Tabak</th><th>Pay</th></tr></thead>
+<tbody id="reportRows"></tbody>
+</table>
+</div>
+<div class="controls" style="margin-top:10px">
+<button id="export" class="secondary">CSV raporu indir</button>
+<button id="reset" class="danger">Bugünü sıfırla</button>
+</div>
+<p class="note">Veriler bu telefondaki tarayıcıda saklanır. Tarayıcı verilerini silmek geçmişi silebilir.</p>
+</section>
+
+<section class="panel">
+<h2>Otomatik sayım durumu</h2>
+<p class="note">Bu sürüm kamera ön izlemesi, personel isimleri ve manuel sayaçlar sağlar. Tabakları otomatik tanımak için görüntü modeli; tabakları doğru kişiye atamak için personelin tabak koyduğu noktaları ayırt eden görüntü veya ek sensör gerekir.</p>
 </section>
 
 <script>
 const $=id=>document.getElementById(id);
+const todayKey=()=>{
+ const d=new Date();
+ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+};
+const defaultNames={};
+for(let i=1;i<=5;i++){
+ defaultNames['R'+i]='Sağ '+i;
+ defaultNames['L'+i]='Sol '+i;
+}
+let db={},names={...defaultNames};
+try{db=JSON.parse(localStorage.getItem('grosCountsV3')||'{}')}catch(e){}
+try{names={...names,...JSON.parse(localStorage.getItem('grosNamesV3')||'{}')}}catch(e){}
+$('today').textContent='Tarih: '+new Date().toLocaleDateString('tr-TR');
+$('reportDate').value=todayKey();
+
+function saveDB(){
+ localStorage.setItem('grosCountsV3',JSON.stringify(db));
+ render();
+}
+function saveNames(){
+ localStorage.setItem('grosNamesV3',JSON.stringify(names));
+ render();
+}
+function day(){
+ const k=todayKey();
+ if(!db[k])db[k]={};
+ return db[k];
+}
+function value(id,date=todayKey()){
+ return Number((db[date]||{})[id]||0);
+}
+function change(id,delta){
+ const d=day();
+ d[id]=Math.max(0,Number(d[id]||0)+delta);
+ saveDB();
+}
+function rename(id){
+ const next=prompt('Bu personelin yeni adını yaz:',names[id]||id);
+ if(next===null)return;
+ const clean=next.trim();
+ if(!clean){alert('İsim boş bırakılamaz.');return}
+ names[id]=clean;
+ saveNames();
+}
+function ids(side){
+ const n=Number($(side==='R'?'rightCount':'leftCount').value);
+ return Array.from({length:n},(_,i)=>side+(i+1));
+}
+function card(id,side){
+ const val=value(id);
+ const cls=side==='R'?'right':'left';
+ const safeName=(names[id]||id).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ return '<div class="worker '+cls+'"><h3>'+safeName+'</h3><div class="num">'+val+
+ '</div><div class="actions"><button onclick="change(\\''+id+'\\',1)">+1</button>'+
+ '<button class="secondary" onclick="change(\\''+id+'\\',-1)">−1</button></div>'+
+ '<button class="secondary" style="margin-top:7px" onclick="rename(\\''+id+'\\')">İsim değiştir</button></div>';
+}
+window.change=change;
+window.rename=rename;
+
+function render(){
+ const right=ids('R'),left=ids('L');
+ $('rightWorkers').innerHTML=right.map(id=>card(id,'R')).join('');
+ $('leftWorkers').innerHTML=left.map(id=>card(id,'L')).join('');
+ const sum=list=>list.reduce((a,id)=>a+value(id),0);
+ $('rightTotal').textContent=sum(right);
+ $('leftTotal').textContent=sum(left);
+ $('grand').textContent=sum(right)+sum(left);
+ $('people').textContent=right.length+left.length;
+ report();
+}
+function report(){
+ const period=$('period').value,chosen=$('reportDate').value||todayKey();
+ const dates=[];
+ if(period==='day')dates.push(chosen);
+ else if(period==='week'){
+  for(let i=0;i<7;i++){
+   const d=new Date();d.setDate(d.getDate()-i);
+   dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
+  }
+ }else{
+  const now=new Date();
+  for(let d=new Date(now.getFullYear(),now.getMonth(),1);d<=now;d.setDate(d.getDate()+1))
+   dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
+ }
+ const all=[...Array.from({length:5},(_,i)=>'R'+(i+1)),...Array.from({length:5},(_,i)=>'L'+(i+1))];
+ const totals=all.map(id=>({id,name:names[id]||id,total:dates.reduce((s,d)=>s+value(id,d),0)}));
+ const grand=totals.reduce((s,x)=>s+x.total,0);
+ $('reportRows').innerHTML=totals.map(x=>'<tr><td>'+x.name.replace(/</g,'&lt;')+'</td><td>'+x.total+'</td><td>'+(grand?Math.round(x.total/grand*100)+'%':'—')+'</td></tr>').join('')+
+ '<tr><th>TOPLAM</th><th>'+grand+'</th><th>'+(grand?'100%':'—')+'</th></tr>';
+}
+$('rightCount').onchange=render;
+$('leftCount').onchange=render;
+$('period').onchange=report;
+$('reportDate').onchange=report;
+$('reset').onclick=()=>{
+ if(!confirm('Bugünkü sayaçları sıfırlamak istiyor musun? Eski günler korunur.'))return;
+ db[todayKey()]={};saveDB();
+};
+$('export').onclick=()=>{
+ const rows=[['Tarih','Personel','Tabak sayısı']];
+ Object.keys(db).sort().forEach(date=>{
+  Object.keys(db[date]).sort().forEach(id=>{
+   rows.push([date,names[id]||id,db[date][id]]);
+  });
+ });
+ const csv='\\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\\r\\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='gros-mantar-tabak-raporu.csv';a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
 const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d');
 let stream=null;
-const todayKey=()=>new Date().toLocaleDateString('sv-SE');
-const dateText=()=>new Date().toLocaleDateString('tr-TR');
-$('today').textContent='Tarih: '+dateText();
-$('reportDate').value=todayKey();
-function readDB(){try{return JSON.parse(localStorage.getItem('grosTrayCountsV1')||'{}')}catch{return {}}}
-let db=readDB();
-function dayData(date=todayKey()){if(!db[date])db[date]={};return db[date]}
-function activeNames(){let names=[];for(let i=1;i<=+$('rightCount').value;i++)names.push('Sağ '+i);for(let i=1;i<=+$('leftCount').value;i++)names.push('Sol '+i);return names}
-function count(name,date=todayKey()){return Number((db[date]||{})[name]||0)}
-function save(){localStorage.setItem('grosTrayCountsV1',JSON.stringify(db));render()}
-function change(name,delta){let d=dayData();d[name]=Math.max(0,Number(d[name]||0)+delta);save()}
-function workerCard(name,side){const val=count(name);return `<div class="worker ${side}"><h3>${name}</h3><div class="num">${val}</div><div class="actions"><button aria-label="${name} tabak ekle" onclick="window.changeCount('${name}',1)">+1 tabak</button><button class="secondary" aria-label="${name} bir azalt" onclick="window.changeCount('${name}',-1)">−1</button></div></div>`}
-window.changeCount=change;
-function sum(names,date=todayKey()){return names.reduce((a,n)=>a+count(n,date),0)}
-function render(){
- const rc=+$('rightCount').value,lc=+$('leftCount').value;
- const right=Array.from({length:rc},(_,i)=>'Sağ '+(i+1)),left=Array.from({length:lc},(_,i)=>'Sol '+(i+1)),names=[...right,...left];
- $('rightWorkers').innerHTML=right.map(n=>workerCard(n,'right')).join('');
- $('leftWorkers').innerHTML=left.map(n=>workerCard(n,'left')).join('');
- $('rightTotal').textContent=sum(right);$('leftTotal').textContent=sum(left);$('grandTotal').textContent=sum(names);$('activePeople').textContent=names.length;
- renderReport();
+function draw(){
+ if(!video.videoWidth)return;
+ canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+ const w=canvas.width,h=canvas.height;
+ ctx.clearRect(0,0,w,h);
+ ctx.lineWidth=Math.max(3,w*.004);
+ ctx.font='bold '+Math.max(16,w*.025)+'px system-ui';
+ ctx.fillStyle='rgba(96,165,250,.18)';
+ ctx.fillRect(0,h*.15,w*.35,h*.7);
+ ctx.strokeStyle='#60a5fa';ctx.strokeRect(0,h*.15,w*.35,h*.7);
+ ctx.fillStyle='#dbeafe';ctx.fillText('SOL',w*.04,h*.23);
+ ctx.fillStyle='rgba(139,92,246,.18)';
+ ctx.fillRect(w*.65,h*.15,w*.35,h*.7);
+ ctx.strokeStyle='#a78bfa';ctx.strokeRect(w*.65,h*.15,w*.35,h*.7);
+ ctx.fillStyle='#ede9fe';ctx.fillText('SAĞ',w*.75,h*.23);
+ ctx.fillStyle='rgba(255,255,255,.7)';ctx.fillRect(w*.48,h*.15,w*.04,h*.7);
 }
-function renderReport(){
- const period=$('reportPeriod').value,chosen=$('reportDate').value||todayKey(),now=new Date(),dates=[];
- if(period==='day')dates.push(chosen);
- else if(period==='week'){for(let i=0;i<7;i++){let d=new Date();d.setDate(d.getDate()-i);dates.push(d.toLocaleDateString('sv-SE'))}}
- else {for(let d=new Date(now.getFullYear(),now.getMonth(),1);d<=now;d.setDate(d.getDate()+1))dates.push(d.toLocaleDateString('sv-SE'))}
- const names=Array.from({length:5},(_,i)=>'Sağ '+(i+1)).concat(Array.from({length:5},(_,i)=>'Sol '+(i+1)));
- const totals=names.map(n=>({name:n,total:dates.reduce((s,d)=>s+count(n,d),0)}));
- const grand=totals.reduce((s,x)=>s+x.total,0);
- $('reportRows').innerHTML=totals.map(x=>`<tr><td>${x.name}</td><td>${x.total}</td><td>${grand?Math.round(x.total/grand*100)+'%':'—'}</td></tr>`).join('')+`<tr><th>TOPLAM</th><th>${grand}</th><th>100%</th></tr>`;
-}
-$('rightCount').onchange=render;$('leftCount').onchange=render;$('reportDate').onchange=renderReport;$('reportPeriod').onchange=renderReport;
-$('newShift').onclick=()=>{if(!confirm('Bugünkü personel sayaçlarını sıfırlamak istiyor musun? Eski günlerin kayıtları korunur.'))return;db[todayKey()]={};save()};
-$('export').onclick=()=>{const rows=[['Tarih','Personel','Tabak sayısı']];Object.keys(db).sort().forEach(date=>Object.keys(db[date]).sort().forEach(name=>rows.push([date,name,db[date][name]])));const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gros-mantar-tabak-raporu.csv';a.click();URL.revokeObjectURL(a.href)};
-function resize(){if(!video.videoWidth)return;canvas.width=video.videoWidth;canvas.height=video.videoHeight;ctx.clearRect(0,0,canvas.width,canvas.height)}
-$('start').onclick=async()=>{try{if(!window.isSecureContext)throw new Error('Kamera için HTTPS gerekir. GitHub Pages bağlantısını kullan.');stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});video.srcObject=stream;video.hidden=false;$('placeholder').hidden=true;await video.play();resize();$('status').innerHTML='Durum: <strong>Kamera ön izlemesi açık — otomatik tabak tanıma henüz etkin değil</strong>';$('start').disabled=true;$('stop').disabled=false;video.addEventListener('resize',resize)}catch(e){$('status').innerHTML='Durum: <strong>Kamera açılamadı: '+String(e.message||e).replace(/[<>&]/g,'')+'</strong>'}};
-$('stop').onclick=()=>{if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.pause();video.srcObject=null;video.hidden=true;$('placeholder').hidden=false;$('start').disabled=false;$('stop').disabled=true;$('status').innerHTML='Durum: <strong>Kamera kapalı</strong>';ctx.clearRect(0,0,canvas.width,canvas.height)};
+$('start').onclick=async()=>{
+ try{
+  if(!window.isSecureContext)throw new Error('Kamera için HTTPS gerekir. GitHub Pages bağlantısını kullan.');
+  stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
+  video.srcObject=stream;video.hidden=false;$('placeholder').hidden=true;
+  await video.play();draw();
+  $('status').textContent='Kamera açık. Otomatik tabak tanıma henüz etkin değil.';
+  $('start').disabled=true;$('stop').disabled=false;
+  video.onloadedmetadata=draw;
+ }catch(e){
+  $('status').textContent='Kamera açılamadı: '+String(e.message||e);
+ }
+};
+$('stop').onclick=()=>{
+ if(stream)stream.getTracks().forEach(t=>t.stop());
+ stream=null;video.pause();video.srcObject=null;video.hidden=true;
+ $('placeholder').hidden=false;$('start').disabled=false;$('stop').disabled=true;
+ $('status').textContent='Kamera kapalı';
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+};
 window.addEventListener('beforeunload',()=>{if(stream)stream.getTracks().forEach(t=>t.stop())});
 render();
 </script>
-</body></html>
+</body>
+</html>
