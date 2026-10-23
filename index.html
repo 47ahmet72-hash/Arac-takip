@@ -1,133 +1,72 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#6d28d9">
-<title>Gros Mantar - Otomatik Tabak Sayacı</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#5b3cc4">
+<title>Onaylı Al-Sat | BTC Türk</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#151c31;--purple:#8b5cf6;--line:#303952;--muted:#aab3ca;--text:#f7f7ff}
-*{box-sizing:border-box}body{margin:0;padding:14px;max-width:1000px;margin-inline:auto;background:linear-gradient(160deg,#11152b,#080b16);font-family:system-ui,sans-serif;color:var(--text)}
-header{text-align:center;padding:10px}h1{margin:0;font-size:27px}header p,.note,.tiny{color:var(--muted);font-size:12px;line-height:1.6}
-.panel{background:var(--panel);border:1px solid #29314b;border-radius:17px;padding:14px;margin:12px 0}h2{font-size:17px;margin:0 0 12px}
-button,input,select{width:100%;padding:12px;border:0;border-radius:10px;font-size:14px}button{background:var(--purple);color:white;font-weight:700;cursor:pointer}button.secondary{background:#303952}button.danger{background:#6b263a}button:disabled{opacity:.45}
-input,select{background:#0e1426;color:white;border:1px solid #37415e;margin-top:5px}label{font-size:12px;color:var(--muted)}
-.row,.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.video{position:relative;background:#05070c;border-radius:12px;overflow:hidden;min-height:190px}
-video{width:100%;max-height:60vh;display:block;object-fit:contain}canvas#overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.status{padding:10px 0;font-size:13px;color:#ddd6fe}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric,.worker{background:#0e1426;border:1px solid #303952;border-radius:12px;padding:12px}.metric small{display:block;color:var(--muted)}.num{font-size:28px;font-weight:800;margin-top:4px}
-.workers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.worker h3{margin:0 0 8px;font-size:14px}.worker.right{border-top:3px solid #a78bfa}.worker.left{border-top:3px solid #60a5fa}.actions{display:flex;gap:6px;margin-top:8px}.actions button{padding:10px 4px}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;padding:8px 4px;border-bottom:1px solid #303952}th{color:#c4b5fd}.scroll{overflow:auto}.badge{font-size:11px;background:#312e81;padding:5px 9px;border-radius:20px;color:#ddd6fe}
-.inline{display:flex;gap:8px;align-items:center}.inline>*{flex:1}.warn{border:1px solid #66512d;background:#2a2419;color:#f8e7b0;border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
-@media(min-width:650px){.workers{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+:root{--purple:#6546d7;--deep:#38217e;--bg:#f5f3fc;--ink:#211b35;--muted:#716b83;--line:#e6e0f2;--green:#14845b;--red:#c33f55}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(130deg,#38217e,#7658e8);color:white;padding:22px 18px 25px;border-radius:0 0 24px 24px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:20px;font-weight:800}.pill{font-size:12px;background:#ffffff20;border:1px solid #ffffff45;border-radius:99px;padding:6px 10px}
+.price-label{margin-top:22px;color:#e3dcff;font-size:13px}.price{font-size:32px;font-weight:800;letter-spacing:-.8px}.sub{font-size:12px;color:#e3dcff;margin-top:3px}
+main{max-width:760px;margin:auto;padding:14px;display:grid;gap:13px}.card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 5px 18px #38217e0a}.card h2{font-size:16px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:var(--muted);font-weight:650}input,select{width:100%;border:1px solid #dcd5ed;border-radius:11px;padding:11px;background:#fff;color:var(--ink);font:inherit;min-width:0}input:focus,select:focus{outline:2px solid #c6b9ff;border-color:var(--purple)}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.mode{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:white;color:var(--ink);font-weight:650}.mode.active{background:#eee9ff;border-color:#a99af0;color:var(--deep)}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{padding:12px;background:#f8f6ff;border-radius:12px}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;margin-top:4px;font-size:17px;overflow-wrap:anywhere}.green{color:var(--green)}.red{color:var(--red)}
+button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:750}.primary{background:var(--purple);color:white}.secondary{background:#eee9ff;color:var(--deep)}.danger{background:#fff0f2;color:var(--red)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.wide{width:100%;margin-top:10px}.notice{font-size:12px;line-height:1.5;color:var(--muted);background:#f8f6ff;border-radius:10px;padding:11px;margin-top:12px}.status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}.dot{width:9px;height:9px;border-radius:50%;background:#a29ab5}.dot.ok{background:#17a673}.log{display:grid;gap:8px}.logrow{border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}.logrow:last-child{border-bottom:0}.footer{text-align:center;color:var(--muted);font-size:11px;padding:4px 12px 24px}
+@media(max-width:430px){.grid{gap:9px}.card{padding:14px}.price{font-size:28px}.metric strong{font-size:15px}}
 </style>
 </head>
 <body>
-<header><h1>🍄 Gros Mantar</h1><p>Personel bazlı köpük tabak sayacı</p><span class="badge">Mor · Beyaz arayüz</span></header>
-
-<section class="panel">
-<h2>Kamera ve otomatik algılama</h2>
-<div class="video"><video id="video" autoplay muted playsinline hidden></video><canvas id="overlay"></canvas>
-<div id="placeholder" style="padding:35px 15px;text-align:center;color:#aab3ca">Kamera görüntüsü burada açılacak.</div></div>
-<div id="status" class="status">Kamera kapalı · Otomatik algılama başlatılmadı</div>
-<div class="controls"><button id="start">Kamerayı aç</button><button id="stop" class="secondary" disabled>Kamerayı kapat</button></div>
-<div class="controls" style="margin-top:9px"><button id="autoStart">Deneysel algılamayı başlat</button><button id="autoStop" class="secondary" disabled>Algılamayı durdur</button></div>
-<p class="note">Bu sürüm, mavi tabakları renk/görüntü ipuçlarıyla deneysel olarak algılamayı dener. Bu bir eğitilmiş yapay zekâ modeli değildir; ışık, kamera açısı, tabakların üst üste gelmesi ve mavi bant parçaları sonucu etkileyebilir. Üretimde kullanmadan önce sayımları elle doğrulayın.</p>
-<div class="warn"><b>Personel eşleştirmesi:</b> Tabakların hangi kişiye ait olduğunu yalnızca mavi renginden kesin belirlemek mümkün değildir. Bu prototip, tabağın ilk görüldüğü konuma göre seçili personel bölgesine atama yapar. Aynı tabağı iki kişinin birlikte koyduğu veya bölgelerin çakıştığı durumlarda manuel düzeltme gerekebilir.</div>
-</section>
-
-<section class="panel">
-<h2>Personel ayarları</h2>
-<div class="row">
-<div><label for="rightCount">Sağ taraftaki personel sayısı</label><select id="rightCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
-<div><label for="leftCount">Sol taraftaki personel sayısı</label><select id="leftCount"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
-</div>
-<p class="note">Personel isimlerini kartlardaki düğmeyle değiştir. Algılama için önce personeli seç, sonra kamera görüntüsünde o personelin tabağı ilk koyduğu alanın ortasına dokun. Her personel için ayrı bir bölge tanımla.</p>
-<div class="row">
-<div><label for="zoneWorker">Bölge tanımlanacak personel</label><select id="zoneWorker"></select></div>
-<div><label for="zoneSize">Bölge boyutu</label><select id="zoneSize"><option value="0.08">Küçük</option><option value="0.13" selected>Orta</option><option value="0.19">Büyük</option></select></div>
-</div>
-<div class="controls" style="margin-top:9px"><button id="zoneMode">Kamera üzerinde bölge belirle</button><button id="clearZones" class="secondary">Bölgeleri temizle</button></div>
-<p class="tiny" id="zoneInfo">Tanımlı bölge: 0</p>
-</section>
-
-<section class="panel">
-<h2>Bugünkü toplam</h2>
-<div class="grid">
-<div class="metric"><small>Genel toplam</small><div class="num" id="grand">0</div></div>
-<div class="metric"><small>Sağ taraf</small><div class="num" id="rightTotal">0</div></div>
-<div class="metric"><small>Sol taraf</small><div class="num" id="leftTotal">0</div></div>
-<div class="metric"><small>Personel sayısı</small><div class="num" id="people">10</div></div>
-</div><p class="tiny" id="today"></p>
-</section>
-<section class="panel"><h2>Sağ taraf personelleri</h2><div class="workers" id="rightWorkers"></div></section>
-<section class="panel"><h2>Sol taraf personelleri</h2><div class="workers" id="leftWorkers"></div></section>
-<section class="panel">
-<h2>Geçmiş ve rapor</h2>
-<div class="row"><div><label for="reportDate">Tarih</label><input type="date" id="reportDate"></div><div><label for="period">Rapor dönemi</label><select id="period"><option value="day">Seçilen gün</option><option value="week">Son 7 gün</option><option value="month">Bu ay</option></select></div></div>
-<div class="scroll" style="margin-top:12px"><table><thead><tr><th>Personel</th><th>Tabak</th><th>Pay</th></tr></thead><tbody id="reportRows"></tbody></table></div>
-<div class="controls" style="margin-top:10px"><button id="export" class="secondary">CSV raporu indir</button><button id="reset" class="danger">Bugünü sıfırla</button></div>
-<p class="note">Veriler bu telefondaki tarayıcıda saklanır. Tarayıcı verilerini silmek geçmişi silebilir.</p>
-</section>
-<section class="panel"><h2>Algılama kayıtları</h2><p class="note">Son algılama olayları burada görünür. Yanlış sayım olursa personel kartındaki −1/+1 ile düzeltilebilir.</p><div id="events" class="tiny">Henüz algılama olayı yok.</div></section>
-
+<header><div class="top"><div class="brand">BTC Türk · Al-Sat Asistanı</div><span class="pill">DENEME MODU</span></div>
+<div class="price-label">Seçili paritenin son fiyatı</div><div class="price" id="livePrice">—</div><div class="sub" id="priceInfo">Canlı fiyat bağlantısı deneniyor…</div></header>
+<main>
+<section class="card"><h2>1. Piyasa ve işlem tutarı</h2><div class="grid">
+<div class="field"><label>Parite</label><select id="pair"><option value="USDTTRY">USDT / TRY (Dolar karşılığı)</option><option value="BTCTRY">BTC / TRY</option><option value="BTCUSDT">BTC / USDT</option><option value="ETHTRY">ETH / TRY</option></select></div>
+<div class="field"><label>İşlem bütçesi (TRY)</label><input id="amount" type="number" min="1" step="any" value="2000"></div>
+<div class="field"><label>Alış seviyesi (TRY/varlık)</label><input id="buyPrice" type="number" min="0" step="any" placeholder="Örn. 49,50"></div>
+<div class="field"><label>Net kâr hedefi (TRY)</label><input id="profit" type="number" min="0.01" step="any" value="10"></div>
+</div></section>
+<section class="card"><h2>2. Komisyon ayarı</h2><div class="modes"><button class="mode active" id="autoMode">Otomatik (bilgi kontrolü)</button><button class="mode" id="manualMode">Manuel</button></div>
+<div class="grid"><div class="field"><label>Alış komisyonu (%)</label><input id="buyFee" type="number" min="0" step="any" value="0.12"></div><div class="field"><label>Satış komisyonu (%)</label><input id="sellFee" type="number" min="0" step="any" value="0.12"></div></div>
+<div class="notice" id="feeNote">Komisyon oranları örnek başlangıç değeridir; hesabına ait güncel oran doğrulanmadı. Otomatik mod gerçek kişisel komisyonu henüz API'den almıyor.</div></section>
+<section class="card"><h2>3. Kâr hedefi hesaplama</h2><div class="metrics">
+<div class="metric"><small>Hedef satış fiyatı (tahmin)</small><strong id="targetPrice">—</strong></div>
+<div class="metric"><small>Komisyonlar sonrası hedef net kâr</small><strong id="netProfit">—</strong></div>
+<div class="metric"><small>Alınabilecek miktar (yaklaşık)</small><strong id="quantity">—</strong></div>
+<div class="metric"><small>Hedef fiyat farkı</small><strong id="delta">—</strong></div>
+</div><button class="secondary wide" id="calc">Hesabı güncelle</button></section>
+<section class="card"><h2>4. Alış / satış stratejisi</h2><div class="grid">
+<div class="field"><label>Alış şekli</label><select id="buyMode"><option value="notify">Fiyat gelince onay iste</option><option value="auto">Koşul gelince otomatik alış (ileride)</option></select></div>
+<div class="field"><label>Satış şekli</label><select id="sellMode"><option value="auto">Hedefe gelince otomatik satış (ileride)</option><option value="notify">Satıştan önce onay iste</option></select></div>
+<div class="field"><label>Satıştan sonra yeniden alış düşüşü (TRY)</label><input id="rebuyDrop" type="number" min="0" step="any" value="15"></div>
+<div class="field"><label>Fiyat kontrol aralığı (saniye)</label><select id="interval"><option>2</option><option selected>5</option><option>10</option><option>30</option></select></div>
+</div><div class="status" style="margin-top:13px"><span class="dot" id="watchDot"></span><span id="watchStatus">Fiyat izleme kapalı</span></div>
+<div class="actions"><button class="primary" id="start">İzlemeyi başlat</button><button class="danger" id="stop">Durdur</button></div>
+<div class="notice">Bu ilk sürümde alım/satım emirleri gönderilmez. Onay düğmeleri yalnızca deneme kaydı oluşturur. Telefon ekranı kapalıyken sürekli takip için ayrıca sunucu ve güvenli API entegrasyonu gerekir.</div></section>
+<section class="card"><h2>5. Bildirim ve deneme kayıtları</h2><div id="promptBox" class="notice">Bir fiyat koşulu oluştuğunda onay seçenekleri burada görünür.</div><div class="actions"><button class="primary" id="approve" disabled>Onaylıyorum</button><button class="secondary" id="reject" disabled>Onaylamıyorum</button></div><div class="log" id="logs" style="margin-top:12px"><div class="logrow">Henüz deneme kaydı yok.</div></div><button class="secondary wide" id="clear">Deneme kayıtlarını temizle</button></section>
+</main><div class="footer">Güvenli başlangıç prototipi · Gerçek emir gönderimi kapalıdır.</div>
 <script>
-const $=id=>document.getElementById(id);
-const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const defaultNames={};for(let i=1;i<=5;i++){defaultNames['R'+i]='Sağ '+i;defaultNames['L'+i]='Sol '+i}
-let db={},names={...defaultNames},zones={},events=[];
-try{db=JSON.parse(localStorage.getItem('grosCountsV3')||'{}')}catch(e){}
-try{names={...names,...JSON.parse(localStorage.getItem('grosNamesV3')||'{}')}}catch(e){}
-try{zones=JSON.parse(localStorage.getItem('grosZonesV1')||'{}')}catch(e){}
-$('today').textContent='Tarih: '+new Date().toLocaleDateString('tr-TR');$('reportDate').value=todayKey();
-function saveDB(){localStorage.setItem('grosCountsV3',JSON.stringify(db));render()}
-function saveNames(){localStorage.setItem('grosNamesV3',JSON.stringify(names));render();fillZoneWorkers()}
-function saveZones(){localStorage.setItem('grosZonesV1',JSON.stringify(zones));updateZoneInfo();drawOverlay()}
-function day(){const k=todayKey();if(!db[k])db[k]={};return db[k]}
-function value(id,date=todayKey()){return Number((db[date]||{})[id]||0)}
-function change(id,delta){const d=day();d[id]=Math.max(0,Number(d[id]||0)+delta);saveDB()}
-function rename(id){const next=prompt('Bu personelin yeni adını yaz:',names[id]||id);if(next===null)return;const clean=next.trim();if(!clean){alert('İsim boş bırakılamaz.');return}names[id]=clean;saveNames()}
-function ids(side){const n=Number($(side==='R'?'rightCount':'leftCount').value);return Array.from({length:n},(_,i)=>side+(i+1))}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function card(id,side){const val=value(id),cls=side==='R'?'right':'left';return '<div class="worker '+cls+'"><h3>'+esc(names[id]||id)+'</h3><div class="num">'+val+'</div><div class="actions"><button onclick="change(\''+id+'\',1)">+1</button><button class="secondary" onclick="change(\''+id+'\',-1)">−1</button></div><button class="secondary" style="margin-top:7px" onclick="rename(\''+id+'\')">İsim değiştir</button></div>'}
-window.change=change;window.rename=rename;
-function render(){const right=ids('R'),left=ids('L');$('rightWorkers').innerHTML=right.map(id=>card(id,'R')).join('');$('leftWorkers').innerHTML=left.map(id=>card(id,'L')).join('');const sum=list=>list.reduce((a,id)=>a+value(id),0);$('rightTotal').textContent=sum(right);$('leftTotal').textContent=sum(left);$('grand').textContent=sum(right)+sum(left);$('people').textContent=right.length+left.length;report();fillZoneWorkers()}
-function report(){const period=$('period').value,chosen=$('reportDate').value||todayKey(),dates=[];if(period==='day')dates.push(chosen);else if(period==='week'){for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))}}else{const now=new Date();for(let d=new Date(now.getFullYear(),now.getMonth(),1);d<=now;d.setDate(d.getDate()+1))dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))}const all=[...Array.from({length:5},(_,i)=>'R'+(i+1)),...Array.from({length:5},(_,i)=>'L'+(i+1))];const totals=all.map(id=>({id,name:names[id]||id,total:dates.reduce((s,d)=>s+value(id,d),0)}));const grand=totals.reduce((s,x)=>s+x.total,0);$('reportRows').innerHTML=totals.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+x.total+'</td><td>'+(grand?Math.round(x.total/grand*100)+'%':'—')+'</td></tr>').join('')+'<tr><th>TOPLAM</th><th>'+grand+'</th><th>'+(grand?'100%':'—')+'</th></tr>'}
-$('rightCount').onchange=render;$('leftCount').onchange=render;$('period').onchange=report;$('reportDate').onchange=report;
-$('reset').onclick=()=>{if(!confirm('Bugünkü sayaçları sıfırlamak istiyor musun? Eski günler korunur.'))return;db[todayKey()]={};saveDB()};
-$('export').onclick=()=>{const rows=[['Tarih','Personel','Tabak sayısı']];Object.keys(db).sort().forEach(date=>Object.keys(db[date]).sort().forEach(id=>rows.push([date,names[id]||id,db[date][id]])));const csv='\\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\\r\\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='gros-mantar-tabak-raporu.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-
-function activeIds(){return [...ids('R'),...ids('L')]}
-function fillZoneWorkers(){const sel=$('zoneWorker'),old=sel.value;sel.innerHTML=activeIds().map(id=>'<option value="'+id+'">'+esc(names[id]||id)+'</option>').join('');if(activeIds().includes(old))sel.value=old}
-function updateZoneInfo(){$('zoneInfo').textContent='Tanımlı bölge: '+Object.keys(zones).filter(id=>activeIds().includes(id)).length+' / '+activeIds().length}
-const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d',{willReadFrequently:true});let stream=null,zoneMode=false,detectorOn=false,raf=0,lastFrame=0,tracks=[],nextTrack=1,lastDetection=0;const proc=document.createElement('canvas'),pctx=proc.getContext('2d',{willReadFrequently:true});
-function resizeCanvas(){if(!video.videoWidth)return;canvas.width=video.videoWidth;canvas.height=video.videoHeight}
-function drawOverlay(detections=[]){if(!video.videoWidth)return; if(canvas.width!==video.videoWidth||canvas.height!==video.videoHeight)resizeCanvas();const w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.lineWidth=Math.max(2,w*.003);ctx.font='bold '+Math.max(13,w*.018)+'px system-ui';
-for(const id of activeIds()){const z=zones[id];if(!z)continue;const x=z.x*w,y=z.y*h,r=z.r*Math.min(w,h);ctx.strokeStyle=id[0]==='R'?'#a78bfa':'#60a5fa';ctx.fillStyle=id[0]==='R'?'rgba(139,92,246,.16)':'rgba(96,165,250,.16)';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.fillText(names[id]||id,x-r,y-r-5)}
-for(const t of tracks){ctx.strokeStyle=t.color||'#facc15';ctx.lineWidth=3;ctx.strokeRect(t.x*w,t.y*h,t.w*w,t.h*h);ctx.fillStyle='#fff';ctx.fillText(t.owner?(names[t.owner]||t.owner):'Aday tabak',t.x*w,t.y*h-5)}
-if(zoneMode){ctx.fillStyle='rgba(10,10,20,.72)';ctx.fillRect(0,0,w,42);ctx.fillStyle='#fff';ctx.fillText('Bölge için görüntüde personelin tabak koyduğu alana dokun',10,27)}}
-function detectBlueTrays(){if(!video.videoWidth||video.readyState<2)return [];const sw=160,sh=Math.max(90,Math.round(sw*video.videoHeight/video.videoWidth));proc.width=sw;proc.height=sh;pctx.drawImage(video,0,0,sw,sh);const im=pctx.getImageData(0,0,sw,sh),d=im.data,mask=new Uint8Array(sw*sh);for(let i=0,p=0;i<d.length;i+=4,p++){const r=d[i],g=d[i+1],b=d[i+2];if(b>65&&b>r*1.28&&b>g*1.08&&b-r>24)mask[p]=1}
-const dil=new Uint8Array(mask.length),closed=new Uint8Array(mask.length);for(let y=1;y<sh-1;y++)for(let x=1;x<sw-1;x++){let yes=0;for(let yy=-1;yy<=1;yy++)for(let xx=-1;xx<=1;xx++)yes|=mask[(y+yy)*sw+x+xx];dil[y*sw+x]=yes}
-for(let y=1;y<sh-1;y++)for(let x=1;x<sw-1;x++){let yes=1;for(let yy=-1;yy<=1;yy++)for(let xx=-1;xx<=1;xx++)yes&=dil[(y+yy)*sw+x+xx];closed[y*sw+x]=yes}
-const seen=new Uint8Array(mask.length),out=[];for(let p=0;p<closed.length;p++){if(!closed[p]||seen[p])continue;const stack=[p];seen[p]=1;let area=0,minx=sw,miny=sh,maxx=0,maxy=0;while(stack.length){const q=stack.pop(),x=q%sw,y=(q/sw)|0;area++;minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);for(const n of [q-1,q+1,q-sw,q+sw])if(n>=0&&n<closed.length&&!seen[n]&&closed[n]){seen[n]=1;stack.push(n)}}if(area>=22&&area<=Math.min(6000,sw*sh*.28)){const bw=maxx-minx+1,bh=maxy-miny+1;if(bw>=7&&bh>=5&&bw/bh>.45&&bw/bh<3.2)out.push({x:minx/sw,y:miny/sh,w:bw/sw,h:bh/sh,cx:(minx+maxx)/2/sw,cy:(miny+maxy)/2/sh,area})}}
-return out}
-function nearestOwner(cx,cy){let best=null,bd=Infinity;for(const id of activeIds()){const z=zones[id];if(!z)continue;const d=Math.hypot((cx-z.x)*canvas.width,(cy-z.y)*canvas.height);if(d<z.r*Math.min(canvas.width,canvas.height)*1.35&&d<bd){best=id;bd=d}}return best}
-function addEvent(text){events.unshift(new Date().toLocaleTimeString('tr-TR')+' — '+text);events=events.slice(0,8);$('events').innerHTML=events.map(esc).join('<br>')}
-function processDetections(found,now){const used=new Set();for(const d of found){let best=null,bd=.12;for(const t of tracks){if(used.has(t.id))continue;const dist=Math.hypot((d.cx-t.cx)*canvas.width,(d.cy-t.cy)*canvas.height);if(dist<bd* Math.min(canvas.width,canvas.height)){bd=dist/Math.min(canvas.width,canvas.height);best=t}}if(best){used.add(best.id);best.x=d.x;best.y=d.y;best.w=d.w;best.h=d.h;best.cx=d.cx;best.cy=d.cy;best.missed=0;if(!best.owner){best.owner=nearestOwner(d.cx,d.cy)}}else{const owner=nearestOwner(d.cx,d.cy);const t={...d,id:nextTrack++,owner,first:now,lastCount:0,missed:0,color:owner?'#34d399':'#facc15'};tracks.push(t);used.add(t.id);
-if(owner){change(owner,1);lastDetection=now;addEvent((names[owner]||owner)+' +1 (deneysel algılama)')}else addEvent('Tabak adayı algılandı; personele atanamadı. Bölge tanımlayın.')}
-}for(const t of tracks){if(!used.has(t.id))t.missed++}tracks=tracks.filter(t=>t.missed<4);if(tracks.length>40)tracks=tracks.slice(-40)}
-function loop(now){if(!detectorOn)return;if(now-lastFrame>450){lastFrame=now;try{const found=detectBlueTrays();processDetections(found,now);drawOverlay()}catch(e){$('status').textContent='Algılama hatası: '+e.message}}raf=requestAnimationFrame(loop)}
-$('start').onclick=async()=>{try{if(!window.isSecureContext)throw new Error('Kamera için HTTPS gerekir. GitHub Pages bağlantısını kullan.');stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});video.srcObject=stream;video.hidden=false;$('placeholder').hidden=true;await video.play();resizeCanvas();drawOverlay();$('status').textContent='Kamera açık. Önce her personel için bölge belirleyin.';$('start').disabled=true;$('stop').disabled=false;video.onloadedmetadata=()=>{resizeCanvas();drawOverlay()}}catch(e){$('status').textContent='Kamera açılamadı: '+String(e.message||e)}};
-$('stop').onclick=()=>{stopDetector();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.pause();video.srcObject=null;video.hidden=true;$('placeholder').hidden=false;$('start').disabled=false;$('stop').disabled=true;$('status').textContent='Kamera kapalı';ctx.clearRect(0,0,canvas.width,canvas.height)};
-function stopDetector(){detectorOn=false;cancelAnimationFrame(raf);$('autoStart').disabled=false;$('autoStop').disabled=true}
-$('autoStart').onclick=()=>{if(!stream){$('status').textContent='Önce kamerayı açın.';return}if(Object.keys(zones).filter(id=>activeIds().includes(id)).length===0){$('status').textContent='Önce personel bölgelerini tanımlayın. Bölge belirle düğmesine basıp kamera görüntüsüne dokunun.';zoneMode=true;return}detectorOn=true;$('autoStart').disabled=true;$('autoStop').disabled=false;$('status').textContent='Deneysel mavi tabak algılama çalışıyor. Sonuçları kontrol edin.';raf=requestAnimationFrame(loop)};
-$('autoStop').onclick=()=>{stopDetector();$('status').textContent='Otomatik algılama durduruldu.'};
-$('zoneMode').onclick=()=>{if(!stream){$('status').textContent='Önce kamerayı açın.';return}zoneMode=!zoneMode;canvas.style.pointerEvents=zoneMode?'auto':'none';$('zoneMode').textContent=zoneMode?'Bölge belirleme açık':'Kamera üzerinde bölge belirle';$('status').textContent=zoneMode?'Personeli seçin, ardından kamera görüntüsünde tabağın ilk konduğu alana dokunun.':'Bölge belirleme kapalı.';drawOverlay()};
-canvas.addEventListener('click',e=>{if(!zoneMode||!video.videoWidth)return;const rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height,id=$('zoneWorker').value,r=Number($('zoneSize').value);zones[id]={x,y,r};saveZones();addEvent((names[id]||id)+' için bölge kaydedildi');$('status').textContent=(names[id]||id)+' bölgesi kaydedildi.'});
-$('clearZones').onclick=()=>{if(!confirm('Bütün personel bölgeleri silinsin mi?'))return;zones={};saveZones();addEvent('Personel bölgeleri temizlendi.')};
-$('rightCount').addEventListener('change',()=>{saveZones();render()});$('leftCount').addEventListener('change',()=>{saveZones();render()});
-window.addEventListener('beforeunload',()=>{stopDetector();if(stream)stream.getTracks().forEach(t=>t.stop())});
-function drawOverlaySafe(){try{drawOverlay()}catch(e){}}
-function updateZoneInfo(){const n=Object.keys(zones).filter(id=>activeIds().includes(id)).length;$('zoneInfo').textContent='Tanımlı bölge: '+n+' / '+activeIds().length}
-render();updateZoneInfo();
-</script>
-</body></html>
+const $=id=>document.getElementById(id);let timer=null,mode='auto',pending=null,lastPrice=null,logs=[];
+function n(id){return Math.max(0,Number($(id).value)||0)}function fmt(v,d=4){return Number.isFinite(v)?v.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:d})+' ₺':'—'}
+function log(s){logs.unshift(new Date().toLocaleTimeString('tr-TR')+' · '+s);logs=logs.slice(0,12);$('logs').innerHTML=logs.map(x=>'<div class="logrow">'+x.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</div>').join('')}
+function calculate(){let a=n('amount'),b=n('buyPrice')||lastPrice,p=n('profit'),fb=n('buyFee')/100,fs=n('sellFee')/100;
+if(!a||!b||!p){$('targetPrice').textContent='Alış fiyatı gir';$('netProfit').textContent='—';$('quantity').textContent='—';$('delta').textContent='—';return}
+let q=a/(b*(1+fb));let target=(a+p)/(q*(1-fs));let actual=q*target*(1-fs)-a*(1+fb);
+$('targetPrice').textContent=fmt(target,6);$('netProfit').textContent=fmt(actual,4);$('quantity').textContent=q.toLocaleString('tr-TR',{maximumFractionDigits:8});$('delta').textContent=fmt(target-b,6)}
+async function fetchPrice(){let pair=$('pair').value;try{let r=await fetch('https://api.btcturk.com/api/v2/ticker?pairSymbol='+encodeURIComponent(pair),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);let j=await r.json();let d=Array.isArray(j.data)?j.data[0]:j.data;if(!j.success||!d||!Number(d.last))throw Error('Fiyat verisi bulunamadı');lastPrice=Number(d.last);$('livePrice').textContent=lastPrice.toLocaleString('tr-TR',{maximumFractionDigits:8})+(pair.endsWith('TRY')?' ₺':'');$('priceInfo').textContent=pair+' · Son güncelleme '+new Date().toLocaleTimeString('tr-TR');if(!$('buyPrice').value)$('buyPrice').value=lastPrice;calculate();checkTrigger()}catch(e){$('priceInfo').textContent='Canlı fiyat alınamadı. Bağlantıyı tekrar deneyin.';$('livePrice').textContent='Bağlantı bekleniyor';}}
+function checkTrigger(){if(!timer||!lastPrice||pending)return;let b=n('buyPrice');if(!b)return;
+if($('buyMode').value==='notify'&&lastPrice<=b){pending={type:'ALIM',price:lastPrice};showPrompt('Alış koşulu oluştu: '+fmt(lastPrice)+' seviyesinde deneme onayı ister misin?')}
+else if($('sellMode').value==='notify'&&lastPrice>=Number($('targetPrice').textContent.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.'))){pending={type:'SATIŞ',price:lastPrice};showPrompt('Satış hedefi görüldü: '+fmt(lastPrice)+' seviyesinde deneme onayı ister misin?')}}
+function showPrompt(t){$('promptBox').textContent=t;$('approve').disabled=false;$('reject').disabled=false;if('Notification'in window&&Notification.permission==='granted')new Notification('BTC Türk deneme sinyali',{body:t})}
+$('autoMode').onclick=()=>{mode='auto';$('autoMode').classList.add('active');$('manualMode').classList.remove('active');$('feeNote').textContent='Otomatik mod seçildi; bu prototip kişisel komisyon oranını henüz API’den doğrulamıyor. Görünen oranları kontrol edin.'};
+$('manualMode').onclick=()=>{mode='manual';$('manualMode').classList.add('active');$('autoMode').classList.remove('active');$('feeNote').textContent='Manuel komisyon modu: alış ve satış komisyon oranlarını kendiniz girin.'};
+$('calc').onclick=calculate;['amount','buyPrice','profit','buyFee','sellFee','rebuyDrop'].forEach(id=>$(id).addEventListener('input',calculate));
+$('pair').onchange=()=>{ $('buyPrice').value='';fetchPrice()};
+$('start').onclick=async()=>{if(timer)return;if('Notification'in window&&Notification.permission==='default')try{await Notification.requestPermission()}catch{}timer=setInterval(fetchPrice,Math.max(2,Number($('interval').value)||5)*1000);$('watchDot').classList.add('ok');$('watchStatus').textContent='İzleme açık · Bu sayfa açıkken çalışır';fetchPrice();log('Deneme fiyat takibi başlatıldı.')};
+$('stop').onclick=()=>{if(timer)clearInterval(timer);timer=null;$('watchDot').classList.remove('ok');$('watchStatus').textContent='Fiyat izleme durduruldu';log('Fiyat takibi durduruldu.')};
+$('approve').onclick=()=>{if(!pending)return;log(pending.type+' sinyali deneme modunda onaylandı · '+fmt(pending.price)+' · Gerçek emir gönderilmedi.');pending=null;$('promptBox').textContent='Deneme onayı kaydedildi. Gerçek işlem yapılmadı.';$('approve').disabled=true;$('reject').disabled=true};
+$('reject').onclick=()=>{if(!pending)return;log(pending.type+' sinyali reddedildi · '+fmt(pending.price));pending=null;$('promptBox').textContent='Sinyal reddedildi; emir gönderilmedi.';$('approve').disabled=true;$('reject').disabled=true};
+$('clear').onclick=()=>{logs=[];$('logs').innerHTML='<div class="logrow">Henüz deneme kaydı yok.</div>'};
+fetchPrice();setInterval(fetchPrice,15000);
+</script></body></html>
