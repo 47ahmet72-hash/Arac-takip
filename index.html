@@ -14,6 +14,7 @@ main{max-width:760px;margin:auto;padding:14px;display:grid;gap:13px}.card{backgr
 .modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.mode{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:white;color:var(--ink);font-weight:650}.mode.active{background:#eee9ff;border-color:#a99af0;color:var(--deep)}
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{padding:12px;background:#f8f6ff;border-radius:12px}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;margin-top:4px;font-size:17px;overflow-wrap:anywhere}.green{color:var(--green)}.red{color:var(--red)}
 button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:750}.primary{background:var(--purple);color:white}.secondary{background:#eee9ff;color:var(--deep)}.danger{background:#fff0f2;color:var(--red)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.wide{width:100%;margin-top:10px}.notice{font-size:12px;line-height:1.5;color:var(--muted);background:#f8f6ff;border-radius:10px;padding:11px;margin-top:12px}.status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}.dot{width:9px;height:9px;border-radius:50%;background:#a29ab5}.dot.ok{background:#17a673}.log{display:grid;gap:8px}.logrow{border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}.logrow:last-child{border-bottom:0}.footer{text-align:center;color:var(--muted);font-size:11px;padding:4px 12px 24px}
+.page{display:none;gap:13px}.page.active{display:grid}.bottomNav{position:sticky;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -5px 20px #38217e10}.navBtn{background:#f5f2ff;color:var(--deep);padding:11px 5px;font-size:13px}.navBtn.active{background:var(--purple);color:#fff}.chartLabel{font-size:11px;color:var(--muted)}
 @media(max-width:430px){.grid{gap:9px}.card{padding:14px}.price{font-size:28px}.metric strong{font-size:15px}}
 </style>
 </head>
@@ -21,6 +22,7 @@ button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font:inherit
 <header><div class="top"><div class="brand">BTC Türk · Al-Sat Asistanı</div><span class="pill">DENEME MODU</span></div>
 <div class="price-label">Seçili paritenin son fiyatı</div><div class="price" id="livePrice">—</div><div class="sub" id="priceInfo">Canlı fiyat bağlantısı deneniyor…</div></header>
 <main>
+<div id="tradePage" class="page active">
 <section class="card"><h2>1. Piyasa ve işlem tutarı</h2><div class="grid">
 <div class="field"><label>Parite</label><select id="pair"><option value="USDTTRY">USDT / TRY (Dolar karşılığı)</option><option value="BTCTRY">BTC / TRY</option><option value="BTCUSDT">BTC / USDT</option><option value="ETHTRY">ETH / TRY</option></select></div>
 <div class="field"><label>İşlem bütçesi (TRY)</label><input id="amount" type="number" min="1" step="any" value="2000"></div>
@@ -45,7 +47,63 @@ button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font:inherit
 <div class="actions"><button class="primary" id="start">İzlemeyi başlat</button><button class="danger" id="stop">Durdur</button></div>
 <div class="notice">Bu ilk sürümde alım/satım emirleri gönderilmez. Onay düğmeleri yalnızca deneme kaydı oluşturur. Telefon ekranı kapalıyken sürekli takip için ayrıca sunucu ve güvenli API entegrasyonu gerekir.</div></section>
 <section class="card"><h2>5. Bildirim ve deneme kayıtları</h2><div id="promptBox" class="notice">Bir fiyat koşulu oluştuğunda onay seçenekleri burada görünür.</div><div class="actions"><button class="primary" id="approve" disabled>Onaylıyorum</button><button class="secondary" id="reject" disabled>Onaylamıyorum</button></div><div class="log" id="logs" style="margin-top:12px"><div class="logrow">Henüz deneme kaydı yok.</div></div><button class="secondary wide" id="clear">Deneme kayıtlarını temizle</button></section>
-</main><div class="footer">Güvenli başlangıç prototipi · Gerçek emir gönderimi kapalıdır.</div>
+</div>
+<div id="portfolioPage" class="page">
+<section class="card"><h2>Portföyüm</h2>
+<div class="notice">Bu ekran BTC Türk hesabına doğrudan bağlanmaz. Başlangıç bakiyeni ve yaptığın işlemleri buraya girerek takip edebilirsin. Veriler bu telefondaki tarayıcıda saklanır.</div>
+<div class="grid" style="margin-top:12px">
+<div class="field"><label>Başlangıç nakit bakiyesi (₺)</label><input id="startingCash" type="number" min="0" step="any" value="2000"></div>
+<div class="field"><label>30 günlük toplam işlem hacmi (₺)</label><input id="volume30" type="number" min="0" step="any" value="0"></div>
+</div>
+<div class="metrics" style="margin-top:12px">
+<div class="metric"><small>Takip edilen nakit</small><strong id="cashBalance">2.000,00 ₺</strong></div>
+<div class="metric"><small>Portföyün güncel değeri</small><strong id="portfolioValue">—</strong></div>
+<div class="metric"><small>Gerçekleşen kâr/zarar</small><strong id="realizedPL">0,00 ₺</strong></div>
+<div class="metric"><small>Komisyon kademesi (tahmini)</small><strong id="feeTier">Manuel oran</strong></div>
+</div>
+<div class="notice" id="tierNote">Komisyon, hesabındaki gerçek oranla aynı olmayabilir. BTC Türk hesabına özel oranı buradan otomatik okuyamıyoruz; uygulamadaki oranı kontrol et.</div>
+</section>
+<section class="card"><h2>İşlem kaydı ekle</h2>
+<div class="grid">
+<div class="field"><label>İşlem</label><select id="ledgerSide"><option value="BUY">Alış</option><option value="SELL">Satış</option></select></div>
+<div class="field"><label>Parite</label><select id="ledgerPair"><option value="USDTTRY">USDT / TRY</option><option value="BTCTRY">BTC / TRY</option><option value="BTCUSDT">BTC / USDT</option><option value="ETHTRY">ETH / TRY</option></select></div>
+<div class="field"><label>İşlem tutarı (₺ karşılığı)</label><input id="ledgerAmount" type="number" min="0.01" step="any" value="500"></div>
+<div class="field"><label>İşlem fiyatı</label><input id="ledgerPrice" type="number" min="0.00000001" step="any" placeholder="Canlı fiyatı kullan"></div>
+<div class="field"><label>Komisyon oranı (%)</label><input id="ledgerFee" type="number" min="0" step="any" value="0.12"></div>
+</div>
+<button class="primary wide" id="addTrade">İşlemi kaydet</button>
+<div class="notice">Bu kayıt sadece takip içindir; BTC Türk'e emir göndermez. Satış işlemi, bu ekranda kaydedilmiş varlık miktarından fazla olamaz.</div>
+</section>
+<section class="card"><h2>Varlıklarım</h2><div id="holdings"><div class="logrow">Henüz işlem kaydı yok.</div></div></section>
+<section class="card"><h2>İşlem geçmişi</h2><div id="tradeHistory"><div class="logrow">Henüz işlem kaydı yok.</div></div><button class="danger wide" id="clearLedger">Portföy kayıtlarını temizle</button></section>
+</div>
+<div id="plPage" class="page">
+<section class="card"><h2>Kâr / zarar grafiği</h2>
+<div class="metrics">
+<div class="metric"><small>Toplam gerçekleşen kâr/zarar</small><strong id="plTotal">0,00 ₺</strong></div>
+<div class="metric"><small>Son fiyat değişimi</small><strong id="priceChange">—</strong></div>
+</div>
+<canvas id="plChart" height="220" style="width:100%;height:220px;display:block;margin-top:14px"></canvas>
+<div class="notice">Grafik, bu sayfa açıkken kaydedilen fiyat örneklerini ve senin eklediğin işlem kayıtlarını gösterir. Geçmiş fiyat verisi otomatik doldurulmaz.</div>
+</section>
+<section class="card"><h2>Satış fiyatında net kâr/zarar</h2>
+<div class="grid">
+<div class="field"><label>Alış fiyatı (₺)</label><input id="sellCalcBuy" type="number" min="0" step="any" value="49.50"></div>
+<div class="field"><label>Satış fiyatı (₺)</label><input id="sellCalcSell" type="number" min="0" step="any" value="49.80"></div>
+<div class="field"><label>Alım tutarı (₺)</label><input id="sellCalcAmount" type="number" min="0" step="any" value="2000"></div>
+<div class="field"><label>Komisyon oranı (%)</label><input id="sellCalcFee" type="number" min="0" step="any" value="0.12"></div>
+</div>
+<div class="metrics" style="margin-top:12px">
+<div class="metric"><small>Alış + satış komisyonu</small><strong id="sellCalcFees">—</strong></div>
+<div class="metric"><small>Komisyon sonrası net kâr/zarar</small><strong id="sellCalcPL">—</strong></div>
+<div class="metric"><small>Başabaş satış fiyatı</small><strong id="sellCalcBreakEven">—</strong></div>
+<div class="metric"><small>Net getiri</small><strong id="sellCalcPercent">—</strong></div>
+</div>
+</section>
+</div>
+</main>
+<nav class="bottomNav"><button class="navBtn active" data-page="tradePage">Al-Sat</button><button class="navBtn" data-page="portfolioPage">Portföyüm</button><button class="navBtn" data-page="plPage">Kâr / Zarar</button></nav>
+<div class="footer">Güvenli takip prototipi · Gerçek emir gönderimi kapalıdır.</div>Güvenli başlangıç prototipi · Gerçek emir gönderimi kapalıdır.</div>
 <script>
 const $=id=>document.getElementById(id);let timer=null,mode='auto',pending=null,lastPrice=null,logs=[];
 function n(id){return Math.max(0,Number($(id).value)||0)}function fmt(v,d=4){return Number.isFinite(v)?v.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:d})+' ₺':'—'}
@@ -69,4 +127,70 @@ $('approve').onclick=()=>{if(!pending)return;log(pending.type+' sinyali deneme m
 $('reject').onclick=()=>{if(!pending)return;log(pending.type+' sinyali reddedildi · '+fmt(pending.price));pending=null;$('promptBox').textContent='Sinyal reddedildi; emir gönderilmedi.';$('approve').disabled=true;$('reject').disabled=true};
 $('clear').onclick=()=>{logs=[];$('logs').innerHTML='<div class="logrow">Henüz deneme kaydı yok.</div>'};
 fetchPrice();setInterval(fetchPrice,15000);
+
+// Portföy ve kâr/zarar takip alanı (yalnızca bu tarayıcıda saklanır).
+const STORE_KEY='btcturkTracker_v2';
+let tracker={startingCash:2000,volume30:0,assets:{},trades:[],realized:0,points:[]};
+try{const saved=JSON.parse(localStorage.getItem(STORE_KEY)||'null');if(saved&&typeof saved==='object')tracker={...tracker,...saved};}catch(e){}
+function saveTracker(){try{localStorage.setItem(STORE_KEY,JSON.stringify(tracker));}catch(e){}}
+function money(v){return Number(v||0).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})+' ₺'}
+function assetPrice(pair){if(pair===$('pair').value&&lastPrice)return lastPrice;return null}
+function currentFee(){return Math.max(0,Number($('buyFee').value)||0)}
+function tierForVolume(v){
+  // Public BtcTurk Hisse tier table is a reference only; do not present it as verified personal crypto pricing.
+  if(v>=2000000000)return {rate:0.01,label:'8. kademe · %0,01'};
+  if(v>=1000000000)return {rate:0.02,label:'7. kademe · %0,02'};
+  if(v>=500000000)return {rate:0.03,label:'6. kademe · %0,03'};
+  if(v>=250000000)return {rate:0.04,label:'5. kademe · %0,04'};
+  if(v>=100000000)return {rate:0.05,label:'4. kademe · %0,05'};
+  if(v>=25000000)return {rate:0.06,label:'3. kademe · %0,06'};
+  if(v>=5000000)return {rate:0.08,label:'2. kademe · %0,08'};
+  return {rate:0.10,label:'1. kademe · %0,10'};
+}
+function renderTracker(){
+  $('startingCash').value=tracker.startingCash??2000;$('volume30').value=tracker.volume30??0;
+  const cash=Number(tracker.startingCash||0)+(tracker.trades||[]).reduce((sum,t)=>sum+(t.side==='SELL'?t.amount-t.fee:-t.amount-t.fee),0);
+  $('cashBalance').textContent=money(cash);
+  let val=0;const names=Object.keys(tracker.assets||{});
+  $('holdings').innerHTML=names.length?names.map(pair=>{let a=tracker.assets[pair],price=assetPrice(pair)||a.lastPrice||a.avgPrice||0;val+=a.qty*price;return `<div class="logrow"><b>${pair}</b> · Miktar: ${Number(a.qty||0).toLocaleString('tr-TR',{maximumFractionDigits:8})} · Ortalama alış: ${money(a.avgPrice)} · Güncel değer: ${money(a.qty*price)}</div>`}).join(''):'<div class="logrow">Henüz işlem kaydı yok.</div>';
+  $('portfolioValue').textContent=money(cash+val);$('realizedPL').textContent=money(tracker.realized||0);$('plTotal').textContent=money(tracker.realized||0);
+  const recentVolume=(tracker.trades||[]).filter(t=>Date.now()-new Date(t.time).getTime()<=30*24*60*60*1000).reduce((sum,t)=>sum+Number(t.amount||0),0);const tier=tierForVolume(Number(tracker.volume30||0)+recentVolume);$('feeTier').textContent=tier.label;
+  $('tierNote').textContent='Girdiğin mevcut 30 günlük hacim ile bu uygulamada son 30 günde kaydettiğin işlemlerin hacmine göre gösterilen kademe referans amaçlıdır. Resmî sayfadaki kademe tablosu kişisel kripto komisyonunu kesin olarak doğrulamaz; gerçek oranını BTC Türk uygulamasından kontrol edip işlem komisyon alanına yaz.';
+  $('tradeHistory').innerHTML=(tracker.trades||[]).length?tracker.trades.slice().reverse().slice(0,30).map(t=>`<div class="logrow">${new Date(t.time).toLocaleString('tr-TR')} · <b>${t.side==='BUY'?'ALIŞ':'SATIŞ'}</b> ${t.pair} · ${money(t.amount)} · fiyat ${Number(t.price).toLocaleString('tr-TR',{maximumFractionDigits:8})} · komisyon ${money(t.fee)}${t.pl!==undefined?' · K/Z '+money(t.pl):''}</div>`).join(''):'<div class="logrow">Henüz işlem kaydı yok.</div>';
+  drawChart();
+}
+function drawChart(){
+  const c=$('plChart');if(!c)return;const w=c.clientWidth||320,h=220,dpr=window.devicePixelRatio||1;c.width=w*dpr;c.height=h*dpr;
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
+  const pts=tracker.points||[];if(pts.length<2){ctx.fillStyle='#716b83';ctx.font='12px system-ui';ctx.fillText('Grafik için fiyat takibi açıkken birkaç veri noktası biriksin.',8,28);return}
+  const ys=pts.map(p=>p.price),min=Math.min(...ys),max=Math.max(...ys),range=max-min||1;
+  ctx.strokeStyle='#e6e0f2';ctx.lineWidth=1;for(let i=0;i<4;i++){let y=15+i*(h-35)/3;ctx.beginPath();ctx.moveTo(8,y);ctx.lineTo(w-8,y);ctx.stroke()}
+  ctx.strokeStyle='#6546d7';ctx.lineWidth=2.5;ctx.beginPath();pts.forEach((p,i)=>{const x=8+i*(w-16)/(pts.length-1),y=15+(max-p.price)*(h-35)/range;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+  ctx.fillStyle='#716b83';ctx.font='11px system-ui';ctx.fillText(money(max),8,h-5);ctx.fillText(money(min),Math.max(8,w-90),h-5);
+  const diff=ys[ys.length-1]-ys[0];$('priceChange').textContent=(diff>=0?'+':'')+money(diff);$('priceChange').className=diff>=0?'green':'red';
+}
+function updateSellCalculator(){
+ const b=Math.max(0,Number($('sellCalcBuy').value)||0),s=Math.max(0,Number($('sellCalcSell').value)||0),a=Math.max(0,Number($('sellCalcAmount').value)||0),f=Math.max(0,Number($('sellCalcFee').value)||0)/100;
+ if(!b||!s||!a){$('sellCalcFees').textContent='—';$('sellCalcPL').textContent='—';$('sellCalcBreakEven').textContent='—';$('sellCalcPercent').textContent='—';return}
+ const qty=a/b, buyFee=a*f, sellValue=qty*s, sellFee=sellValue*f, net=sellValue-sellFee-a-buyFee, be=b*(1+f)/(1-f);
+ $('sellCalcFees').textContent=money(buyFee+sellFee);$('sellCalcPL').textContent=money(net);$('sellCalcPL').className=net>=0?'green':'red';$('sellCalcBreakEven').textContent=money(be);$('sellCalcPercent').textContent=((net/(a+buyFee))*100).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+}
+document.querySelectorAll('.navBtn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.navBtn').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.page));if(btn.dataset.page==='plPage')drawChart();}));
+$('startingCash').addEventListener('change',()=>{tracker.startingCash=Math.max(0,Number($('startingCash').value)||0);saveTracker();renderTracker()});
+$('volume30').addEventListener('change',()=>{tracker.volume30=Math.max(0,Number($('volume30').value)||0);saveTracker();renderTracker()});
+$('addTrade').onclick=()=>{
+ const side=$('ledgerSide').value,pair=$('ledgerPair').value,amount=Math.max(0,Number($('ledgerAmount').value)||0),price=Math.max(0,Number($('ledgerPrice').value)||assetPrice(pair)||0),feeRate=Math.max(0,Number($('ledgerFee').value)||0)/100;
+ if(!amount||!price){alert('İşlem tutarı ve fiyat gir.');return}
+ let a=tracker.assets[pair]||{qty:0,avgPrice:0,lastPrice:price};const qty=amount/price,fee=amount*feeRate;let pl;
+ if(side==='BUY'){const oldCost=a.qty*a.avgPrice;a.qty+=qty;a.avgPrice=(oldCost+amount+fee)/a.qty;}
+ else{if(qty>a.qty+1e-10){alert('Bu varlık için kayıtlı miktar yetersiz. Önce alış işlemini kaydet.');return}pl=amount-fee-qty*a.avgPrice;a.qty=Math.max(0,a.qty-qty);tracker.realized=(tracker.realized||0)+pl;if(a.qty<1e-10){a.qty=0;a.avgPrice=0;}}
+ a.lastPrice=price;tracker.assets[pair]=a;tracker.trades.push({time:new Date().toISOString(),side,pair,amount,price,qty,fee,pl});saveTracker();renderTracker();
+};
+$('clearLedger').onclick=()=>{if(confirm('Portföy ve işlem kayıtları bu telefondan silinsin mi?')){tracker={startingCash:2000,volume30:0,assets:{},trades:[],realized:0,points:[]};saveTracker();renderTracker();}};
+['sellCalcBuy','sellCalcSell','sellCalcAmount','sellCalcFee'].forEach(id=>$(id).addEventListener('input',updateSellCalculator));
+const oldFetchPrice=fetchPrice;
+fetchPrice=async function(){await oldFetchPrice();if(lastPrice){const pair=$('pair').value;if(tracker.assets[pair])tracker.assets[pair].lastPrice=lastPrice;tracker.points.push({time:Date.now(),price:lastPrice,pair});tracker.points=tracker.points.slice(-80);saveTracker();renderTracker();}};
+$('pair').addEventListener('change',()=>{if(lastPrice){tracker.points.push({time:Date.now(),price:lastPrice,pair:$('pair').value});saveTracker();renderTracker()}});
+renderTracker();updateSellCalculator();
+
 </script></body></html>
